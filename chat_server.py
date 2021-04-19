@@ -12,16 +12,18 @@ The second argument is the type of socket. SOCK_STREAM means that data or charac
 """
 server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
-IP_address = "10.0.0.64"
-Port = 1020
+IP_address = "127.0.0.1"
+Port = 1111
 server.bind((IP_address, Port)) 
 #binds the server to an entered IP address and at the specified port number. The client must be aware of these parameters
-server.listen(100)
-#listens for 100 active connections. This number can be increased as per convenience
+server.listen(5)
+#listens for 5 active connections. This number can be increased as per convenience
 list_of_clients=[]
 
+exit_code = False
+
 def clientthread(conn, addr):
-    conn.send("Welcome to this chatroom!")
+    conn.send("Welcome to the Secure File Management Application.%nBefore proceeding, please authenticate below.")
     #sends a message to the client whose user object is conn
     while True:
             try:     
@@ -29,7 +31,9 @@ def clientthread(conn, addr):
                 if message:
                 	if "exit" in message:
                 		print("closing the program")
-                		sys.exit()
+                		exit_code = True
+                		#Remove this eventually, for debugging purposes
+                		exit(0)
 			else:
 				print("<" + addr[0] + "> " + message)
                     		message_to_send = "<" + addr[0] + "> " + message
@@ -53,7 +57,7 @@ def remove(connection):
     if connection in list_of_clients:
         list_of_clients.remove(connection)
 
-while True:
+while exit_code == False:
     conn, addr = server.accept()
     """
     Accepts a connection request and stores two parameters, conn which is a socket object for that user, and addr which contains
@@ -65,11 +69,12 @@ while True:
     #Prints the address of the person who just connected
     #start_new_thread(clientthread,(conn,addr))
     clientthread(conn,addr) #changed this part. It originally called a function that didn't exist.
-    #creates and individual thread for every user that connects
+    #creates and individual thread for every user that connect
 
 conn.close()
 server.close()
-
+exit(0)
+print("Program is closed")
 
 '''
 This code is from my server.py program. Used for the headersize stuff

@@ -21,7 +21,7 @@ public class client{
 		
 		in = new InputStreamReader(sock.getInputStream());
 		bf = new BufferedReader(in);
-		
+		//readText();
 		startSession();
 	}
 	public static void startSession() throws IOException{

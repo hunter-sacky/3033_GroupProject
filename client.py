@@ -3,8 +3,8 @@ import select
 import sys
 
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-IP_address = "10.0.0.64"
-Port = 1020
+IP_address = "127.0.0.1"
+Port = 1111
 server.connect((IP_address, Port))
 
 while True:
