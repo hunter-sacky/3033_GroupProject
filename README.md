@@ -6,3 +6,5 @@
 	Code still has errors but is a decent stopping point for the moment.
 #Commit 3:
 	Added a module for commands and started making methods to execute the commands. Code now has exit conditions.
+#Commit 4:
+	Added a delete, upload, dirList, and renaming method to the server
