@@ -8,3 +8,7 @@
 	Added a module for commands and started making methods to execute the commands. Code now has exit conditions.
 #Commit 4:
 	Added a delete, upload, dirList, and renaming method to the server
+#Commit 5:
+	Changed signaling between client and server to better fit project goals. All functions work without error besides the exit session method
+	which returns errors on client side while successfully closing server script without errors. Added support for custom directories and
+	increased logging capability for the server.
