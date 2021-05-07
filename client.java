@@ -32,8 +32,8 @@ public class client{
 		try 
 		{
 			SSLSocketFactory sslsocketfactory = (SSLSocketFactory)SSLSocketFactory.getDefault();
-			sock = (SSLSocket)sslsocketfactory.createSocket("localhost", 9999);
-			InputStream inputstream = System.in;
+			sock = (SSLSocket)sslsocketfactory.createSocket("10.0.2.4", 1000);
+			InputStream inputstream = sock.getInputStream();
 			in = new InputStreamReader(inputstream);
 			bf = new BufferedReader(in);
 			//OutputStream outputstream = sslsocket.getOutputStream();
@@ -53,14 +53,15 @@ public class client{
 		
 		//in = new InputStreamReader(sock.getInputStream());
 		//bf = new BufferedReader(in);
-		f = new File("/Users/huntersacky/Desktop/3033_project/3033_GroupProject/clientfiles");
+		f = new File("/home/rarealton/school/3033_GroupProject");
 		normalSession();
 	}
 	public static void normalSession() throws IOException{
 		while (true){
+			
 			int i=readText();
 			while(i-->-1){
-				readText();
+				readText();//herererererer
 			}
 			if (exec)
 				sendText(input.nextLine());
@@ -68,6 +69,7 @@ public class client{
 	}
 	public static int readText() throws IOException{
 		String str = bf.readLine();
+	//	System.out.println(str);
 		if (str.contains("LiNeCoUnt")){
 			exec=true;
 			return Integer.parseInt(str.split(",")[1]);
