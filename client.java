@@ -53,7 +53,7 @@ public class client{
 		
 		//in = new InputStreamReader(sock.getInputStream());
 		//bf = new BufferedReader(in);
-		f = new File("/home/rarealton/school/3033_GroupProject");
+		f = new File("/home/rarealton/school/3033_GroupProject/files");
 		normalSession();
 	}
 	public static void normalSession() throws IOException{
