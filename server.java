@@ -4,6 +4,7 @@
 
 */
 
+
 import java.net.*;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLServerSocket;
@@ -27,6 +28,7 @@ public class server{
 	private static String username, serverDirectory;
 	private static ArrayList<String[]> permissionsMatrix;
 	private static InputStream is; 
+	
 
 	public static void main(String[] args) throws IOException{
 		/*System.out.println("Server has started"); 
@@ -50,17 +52,16 @@ public class server{
 	//	newFile("test123.txt");
 		sendText("LiNeCoUnt,1");
 		startSession();*/
-		System.out.println("try");
 		try{
 			SSLServerSocketFactory sslserversocketfactory =
         		(SSLServerSocketFactory)SSLServerSocketFactory.getDefault();
       		SSLServerSocket serv =
         		(SSLServerSocket)sslserversocketfactory.createServerSocket(1000);
-		System.out.println("try2");
       		SSLSocket sock = (SSLSocket)serv.accept();
-		System.out.println("test");
       		is = sock.getInputStream();
-      		in = new InputStreamReader(is);
+      		//InputStream inputstream = sock.getInputStream();
+		//in = new InputStreamReader(inputstream);
+		in = new InputStreamReader(is);
       		bf = new BufferedReader(in);
       		pr = new PrintWriter(sock.getOutputStream());
       		System.out.println("Client Connected");
@@ -69,7 +70,7 @@ public class server{
       		while (file.hasNextLine()){
       			permissionsMatrix.add(file.nextLine().split(","));
       		}
-      		serverDirectory="/home/rarealton/school/3033_GroupProject";
+      		serverDirectory="/home/rarealton/school/3033_GroupProject/files";
       		f=new File(serverDirectory);
       		sendText("LiNeCoUnt,1");
       		startSession();
@@ -214,8 +215,10 @@ public class server{
 		return str;
 	}
 	public static void sendText(String text) throws IOException{
+		//pr = new PrintWriter(sock.getOutputStream());
 		pr.println(text);
 		pr.flush();
+		//pr.close();
 	}
 	
 	//The methods below are used to manipulate the file system
@@ -313,13 +316,12 @@ public class server{
         FileInputStream fis = new FileInputStream(sendFile);
         BufferedInputStream bis = new BufferedInputStream(fis);
         bis.read(mybytearray,0,mybytearray.length);
-        pr.close();
-	OutputStream os = sock.getOutputStream();
+        //pr.close();
+	OutputStream os = new WriterOutputStream(pr);
         os.write(mybytearray,0,mybytearray.length);
         os.flush();
         System.out.println(username+" downloaded "+pathnames[option-1]+" from the server.");
-		os.close();
-		pr = new PrintWriter(sock.getOutputStream());
+		//pr = new PrintWriter(sock.getOutputStream());
 		return true;
 	}
 	public static boolean upload() throws IOException{
@@ -330,7 +332,8 @@ public class server{
 		long filesize = Long.parseLong(arr[0]);
 		String filename = arr[1];
 		byte [] mybytearray  = new byte [(int)filesize];
-      	      	FileOutputStream fos = new FileOutputStream(f.getPath()+File.separator+filename);
+      	      	//InputStream is = sock.getInputStream();
+		FileOutputStream fos = new FileOutputStream(f.getPath()+File.separator+filename);
       	BufferedOutputStream bos = new BufferedOutputStream(fos);
       	int bytesRead = is.read(mybytearray,0,mybytearray.length);
       	int current = bytesRead;
