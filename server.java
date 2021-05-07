@@ -30,7 +30,7 @@ public class server{
 		sock = serv.accept();
 		System.out.println(sock.getInetAddress());
 		System.out.println("client connected");
-		serverDirectory="/Users/huntersacky/Desktop/3033_project/3033_GroupProject/serverfiles";
+		serverDirectory="/home/rarealton/school/3033_GroupProject";
 		
 		in = new InputStreamReader(sock.getInputStream());
 		bf = new BufferedReader(in);
@@ -50,7 +50,12 @@ public class server{
 	}
 	public static void startSession() throws IOException{
 		sendText("Welcome to the Secure File Management Application. Before proceeding please authenticate below.");
-		boolean auth = authenticate();
+		//boolean auth = authenticate();
+		
+		do{
+		System.out.print("");
+		}while(!authenticate());//run again if failed to login
+		
 		//List commands, should be a do while loop
 		int command = 0;
 		String[] commands = {"UPLOAD","DOWNLOAD","RENAME","DELETE","EXIT SESSION"};
@@ -143,7 +148,6 @@ public class server{
 					}
 				}
 			}
-			
 		} while(true);
 	}
 	public static boolean authenticate() throws IOException{
@@ -152,6 +156,24 @@ public class server{
 		sendText("LiNeCoUnt,0");
 		sendText("Password: ");
 		String password = readText();
+		//start of bash script to check authentication
+		String[] command = {"./test.sh", username, password};
+		Process process = Runtime.getRuntime().exec(command);
+		BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+			String s = null;
+			while ((s = reader.readLine()) != null){
+				System.out.println(s);
+				if(s.equals("1")) {
+					System.out.println(username+ " Logged into the server.");
+					return true;
+				}
+				else {
+					System.out.println("Invalid username or password");
+					return false;
+				}
+			}
+		
+		
 		System.out.println(username+" Logged into the server.");
 		return true;
 	}
