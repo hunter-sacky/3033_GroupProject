@@ -1,0 +1,7 @@
+filename,hunter,harshan,hector,alton,omar
+[DIRECTORY],rwx,rwx,rw,rwx,r
+.DS_Store, , , , , 
+test3.txt,rwx,rwx,rw,rwx,r
+ikd,rwx,rwx,rw,rwx,r
+temp.png,rwx,rwx,rw,rwx,r
+temp.png,rwx,rwx,rw,rwx,r

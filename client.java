@@ -53,7 +53,6 @@ public class client{
 			rename(str);
 		}
 		else if (str.contains("DeLeTe")){
-			exec=true;
 			delete(str);
 		}
 		else{
@@ -100,6 +99,15 @@ public class client{
       	exec=false;
 	}
 	public static void rename(String str) throws IOException{
+		//Lacking some sort of permission
+		/*if (str.contains("!ReNaMe")){
+			//Directory edit permissions
+			if (str.length==7){
+				System.out.prinltn("You are not able to rename files on this server");
+			}
+		}*/
+		
+		
 		System.out.println("Which file would you like to rename?");
 		String[] fileNames=str.split(" ")[1].split(",");
 		printFileNames(fileNames);
