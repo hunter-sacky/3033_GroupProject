@@ -6,6 +6,16 @@
 import java.net.*;
 import java.io.*;
 import java.util.Scanner;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
+
 
 public class client{
 
@@ -13,17 +23,36 @@ public class client{
 	private static BufferedReader bf;
 	private static PrintWriter pr;
 	private static Scanner input;
-	private static Socket sock;
+	private static SSLSocket sock;
 	private static boolean exec=true;
 	private static File f;
 
 	public static void main(String[] args) throws IOException{
-		sock = new Socket("127.0.0.1", 1000);
+		
+		try 
+		{
+			SSLSocketFactory sslsocketfactory = (SSLSocketFactory)SSLSocketFactory.getDefault();
+			sock = (SSLSocket)sslsocketfactory.createSocket("localhost", 9999);
+			InputStream inputstream = System.in;
+			in = new InputStreamReader(inputstream);
+			bf = new BufferedReader(in);
+			//OutputStream outputstream = sslsocket.getOutputStream();
+			//OutputStreamWriter outputstreamwriter = new OutputStreamWriter(outputstream);
+			//BufferedWriter bufferedwriter = new BufferedWriter(outputstreamwriter);
+			//String string = null;
+		}
+		  catch (Exception exception)
+		{
+			 exception.printStackTrace();
+		}
+		// end try catch 
+		
+		//sock = new Socket("127.0.0.1", 1000);
 		pr = new PrintWriter(sock.getOutputStream());
 		input = new Scanner(System.in);
 		
-		in = new InputStreamReader(sock.getInputStream());
-		bf = new BufferedReader(in);
+		//in = new InputStreamReader(sock.getInputStream());
+		//bf = new BufferedReader(in);
 		f = new File("/Users/huntersacky/Desktop/3033_project/3033_GroupProject/clientfiles");
 		normalSession();
 	}
