@@ -16,3 +16,5 @@
 	Removed testing modules and older parts of the project that weren't necessary.
 #Commit 7:
 	Added authorization functionality for both commands and files.
+#Commit 8:
+	Added support for SSL in server.java. Testing on other machine before changing client.java
