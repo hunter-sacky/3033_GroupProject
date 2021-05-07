@@ -5,6 +5,9 @@
 */
 
 import java.net.*;
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLServerSocket;
+import javax.net.ssl.SSLServerSocketFactory;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -18,14 +21,14 @@ public class server{
 	private static InputStreamReader in;
 	private static BufferedReader bf;
 	private static PrintWriter pr;
-	//private static connection c;
-	private static Socket sock;
+	//private static Socket sock;
+	private static SSLSocket sock;
 	private static File f;
 	private static String username, serverDirectory;
 	private static ArrayList<String[]> permissionsMatrix;
 	
 	public static void main(String[] args) throws IOException{
-		System.out.println("Server has started"); 
+		/*System.out.println("Server has started"); 
 		ServerSocket serv = new ServerSocket(1000);
 		sock = serv.accept();
 		System.out.println(sock.getInetAddress());
@@ -45,7 +48,31 @@ public class server{
 		f = new File(serverDirectory);//Enter default pathway here. Change between machines.
 	//	newFile("test123.txt");
 		sendText("LiNeCoUnt,1");
-		startSession();
+		startSession();*/
+		try{
+			SSLServerSocketFactory sslserversocketfactory =
+        		(SSLServerSocketFactory)SSLServerSocketFactory.getDefault();
+      		SSLServerSocket serv =
+        		(SSLServerSocket)sslserversocketfactory.createServerSocket(1000);
+      		SSLSocket sock = (SSLSocket)serv.accept();
+      		InputStream inputstream = sock.getInputStream();
+      		in = new InputStreamReader(inputstream);
+      		bf = new BufferedReader(in);
+      		
+      		System.out.println("Client Connected");
+      		permissionsMatrix = new ArrayList<String[]>();
+      		Scanner file = new Scanner(new File("permissions.txt"));
+      		while (file.hasNextLine()){
+      			permissionsMatrix.add(file.nextLine().split(","));
+      		}
+      		serverDirectory="/home/rarealton/school/3033_GroupProject";
+      		f=new File(serverDirectory);
+      		sendText("LiNeCoUnt,1");
+      		startSession();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
 		
 	}
 	public static void startSession() throws IOException{
