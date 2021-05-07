@@ -26,7 +26,8 @@ public class server{
 	private static File f;
 	private static String username, serverDirectory;
 	private static ArrayList<String[]> permissionsMatrix;
-	
+	private static InputStream is; 
+
 	public static void main(String[] args) throws IOException{
 		/*System.out.println("Server has started"); 
 		ServerSocket serv = new ServerSocket(1000);
@@ -49,16 +50,19 @@ public class server{
 	//	newFile("test123.txt");
 		sendText("LiNeCoUnt,1");
 		startSession();*/
+		System.out.println("try");
 		try{
 			SSLServerSocketFactory sslserversocketfactory =
         		(SSLServerSocketFactory)SSLServerSocketFactory.getDefault();
       		SSLServerSocket serv =
         		(SSLServerSocket)sslserversocketfactory.createServerSocket(1000);
+		System.out.println("try2");
       		SSLSocket sock = (SSLSocket)serv.accept();
-      		InputStream inputstream = sock.getInputStream();
-      		in = new InputStreamReader(inputstream);
+		System.out.println("test");
+      		is = sock.getInputStream();
+      		in = new InputStreamReader(is);
       		bf = new BufferedReader(in);
-      		
+      		pr = new PrintWriter(sock.getOutputStream());
       		System.out.println("Client Connected");
       		permissionsMatrix = new ArrayList<String[]>();
       		Scanner file = new Scanner(new File("permissions.txt"));
@@ -309,10 +313,13 @@ public class server{
         FileInputStream fis = new FileInputStream(sendFile);
         BufferedInputStream bis = new BufferedInputStream(fis);
         bis.read(mybytearray,0,mybytearray.length);
-        OutputStream os = sock.getOutputStream();
+        pr.close();
+	OutputStream os = sock.getOutputStream();
         os.write(mybytearray,0,mybytearray.length);
         os.flush();
         System.out.println(username+" downloaded "+pathnames[option-1]+" from the server.");
+		os.close();
+		pr = new PrintWriter(sock.getOutputStream());
 		return true;
 	}
 	public static boolean upload() throws IOException{
@@ -323,8 +330,7 @@ public class server{
 		long filesize = Long.parseLong(arr[0]);
 		String filename = arr[1];
 		byte [] mybytearray  = new byte [(int)filesize];
-      	InputStream is = sock.getInputStream();
-      	FileOutputStream fos = new FileOutputStream(f.getPath()+File.separator+filename);
+      	      	FileOutputStream fos = new FileOutputStream(f.getPath()+File.separator+filename);
       	BufferedOutputStream bos = new BufferedOutputStream(fos);
       	int bytesRead = is.read(mybytearray,0,mybytearray.length);
       	int current = bytesRead;
